@@ -1,13 +1,13 @@
 <html>
 	<meta charset="UTF-8">
-	<title>Protein Calculator v0.05</title>
+	<title>Protein Calculator v0.5</title>
 	<head>
 		<link rel="stylesheet" type="text/css" href="protcalc.css">
 	</head>
-	<ul>
-		<li><a href="http://pdb.org/pdb/">PDB</a></li>
-		<li><a href="http://www.ncbi.nlm.nih.gov/pubmed/">PubMed</a></li>
-		<li><a href="http://www.lifesci.dundee.ac.uk/groups/mike_ferguson/">Ferguson Group</a></li>
+	<ul class="menu">
+		<li><a class="menu" href="http://pdb.org/pdb/">PDB</a></li>
+		<li><a class="menu" href="http://www.ncbi.nlm.nih.gov/pubmed/">PubMed</a></li>
+		<li><a class="menu" href="http://www.lifesci.dundee.ac.uk/groups/mike_ferguson/">Ferguson Group</a></li>
 	</ul> 
 	<br>
 	<body>
@@ -16,13 +16,29 @@
 		  You have JavaScript disabled or your browser does not support it. ProtCalc required JavaScript. 
 		</noscript>
 		<script src="protcalc.js"></script>
+		<p>
 		<FORM NAME="seqinput" ACTION="" METHOD="GET">
 			<br>
-			Input either DNA sequence, or protein sequence, in FASTA format, into the box:<BR>
-			<textarea NAME="seqbox" VALUE="Enter sequence", cols=80 rows=10></textarea><br>
-			<INPUT TYPE="button" NAME="button" Value="Calculate" onClick="parseInput(this.form)">
-		</FORM>
-		<br><br><br><br><br><br><br><br><br><br><br><br>
+			Input either a DNA sequence, or protein sequence, in FASTA format, into the box:<BR>
+			<textarea NAME="seqbox" value="Enter sequence", cols=80 rows=10></textarea><br><br>
+			<!-- Or upload a .fasta file from your computer: 
+			<input type=file size=20 name=seqfile><br> -->
+			<input type="text" name="A280" size="3"> Absorbance at 280nm (A)<br>
+			<input type="text" name="l" size="3" value=1> Cuvette length (cm)<br>
+			<input type="button" name="button" value="Calculate" onClick="parseInput(this.form)">
+		</FORM></p>
 	</body>
+	<p class="ref">
+	Important Notes:
+		<ul class="ref">
+		<li>The &epsilon;(280) values uses "are quite reliable for proteins containing Trp residues, and less reliable for proteins that do not."(1)</li>
+		</ul>
+	</p><br>
+	<p class="ref">References:
+		<ul class="ref">
+		<li>Pace CN, Vajdos F, Fee L, Grimsley G, Gray T. How to measure and predict the molar absorption coefficient of a protein. Protein Sci. 1995 Nov;4(11):2411-23. PubMed PMID: 8563639; PubMed Central PMCID: PMC2143013.</li>
+		<li> Amino acid masses from <a href="http://web.expasy.org/findmod/findmod_masses.html#AA">ExPASY</a>. Nonstandard residue weights (B, Z, X) were handled <a href="http://web.expasy.org/compute_pi/pi_tool-doc.html">as documented in ExPASY's official tool (Comment #5)</a>, with data from <a href="http://web.expasy.org/docs/relnotes/relstat.html">ExPASY's statistics<\a></li>
+		</ul></p>
+		<br><br><br>
 	<font size="1">Written 2013 by LKBecker for the MAJF Lab at the University of Dundee.</font>
 </html>
