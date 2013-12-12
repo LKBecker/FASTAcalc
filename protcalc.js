@@ -37,7 +37,7 @@ function translateToProtein (Seq){
 
 function calculateMass (Seq){
 	/*
-	Letter	Amino Acid		Average Mass	Frequency(%)
+	Letter	Amino Acid		Average Mass	% of all residues
 	A		alanine			071.0788		8.25
 	R		arginine		156.10111		5.53
 	N		asparagine		114.04293		4.06
@@ -62,19 +62,18 @@ function calculateMass (Seq){
 	Source: http://web.expasy.org/findmod/findmod_masses.html#AA
 
 	Uncommon codons
-	B	aspartate/asparagine  
-	Z	glutamate/glutamine	
-	X	any									
-	are handled like ExPASY's comput_pi (http://web.expasy.org/compute_pi/pi_tool-doc.html) and computed from their statistics (http://web.expasy.org/docs/relnotes/relstat.html)
-	aspartate	D	115.02694	5.45
-	asparagine	N	114.04293	4.06
+	B	aspartate/asparagine 	114,6068474
+	Z	glutamate/glutamine		128,6804964
+	X	any						110,92618464
+						
+	These codons are handled as ExPASY's comput_pi (http://web.expasy.org/compute_pi/pi_tool-doc.html) does. Their masses were calculated from ExPASY statistics (http://web.expasy.org/docs/relnotes/relstat.html) on 11th December 2013
+	Amino Acid	Letter	Average Mass	% of all residues
+	aspartate	D		115.02694		5.45
+	asparagine	N		114.04293		4.06
 	
 
-	glutamate	E	129.04259	6.75
-	glutamine	Q	128.05858	3.93
-
-	*  translation stop
-	-  gap of indeterminate length
+	glutamate	E		129.04259		6.75
+	glutamine	Q		128.05858		3.93
 	*/
 
 	
