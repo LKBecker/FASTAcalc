@@ -11,6 +11,17 @@ if (!String.prototype.format) {
   };
 }
 
+function sequence(header, sequence){
+	this.header = header
+	this.sequence = sequence
+};
+
+function codon(dnacodons, letter, mass){
+	this.codons = dnacodons
+	this.letter = letter
+	this.mass = mass
+};
+
 function isolateSubSequences (text){
 	var header = /^>.?\|*/i;
 	var Seqs=[];
@@ -25,15 +36,23 @@ function isolateSubSequences (text){
 	return Seqs
 };
 
-/*
+
 function translateToProtein (Seq){
-	var codons=[];
+	var codons = [
+		codon(['AUG'], '@', ), codon(['UUU', 'UUC'], 'F', ), codon(['UUA', 'UUG', 'CUU', 'CUC', 'CUA', 'CUG'], 'L', ), 
+		codon(['AUU', 'AUC', 'AUA', ], 'I', ), codon(['AUG'], 'M', ), codon(['GUU', 'GUC', 'GUA', 'GUG'], 'V', ), 
+		codon(['UCU', 'UCC', 'UCA', 'UCG'], 'S', ), codon(['CCU', 'UCC', 'UCA', 'UCG'], 'P', ), codon(['ACU', 'ACC', 'ACA', 'ACG'], 'T', ), 
+		codon(['GCU', 'GCC', 'GCA', 'GCG'], 'A', ), codon(['UAU', 'UAC'], 'Y', ), codon(['UAA', 'UAG', 'UGA'], '*', ), 
+		codon(['CAU', 'CAC'], 'H', ), codon(['CAA', 'CAG'], 'Q', ), codon(['AAU', 'AAC'], 'N', ), 
+		codon(['AAA', 'AAG'], 'K', ), codon(['GAU', 'GAC'], 'D', ), codon(['GAA', 'GAG'], 'E', ), 
+		codon(['UGU', 'UGC'], 'C', ), codon(['UGG'], 'W', ), codon(['AGA', 'AGG', 'CGU', 'CGC', 'CGA', 'CGG'], 'R', ), 
+		codon(['AGU', 'AGC'], 'S', ), codon(['GGU', 'GGC', 'GGA', 'GGG'], 'G', )];
+		//replace T -> U, chop in thirds, case-insensitive match
 	for (var i=0; i<Seq.length; i+3){
 	
 	};
-	document.write("{0} sequence(s) found.<br>".format(Seqs.length));
 };
-*/
+
 
 function calculateMass (Seq){
 	/*
