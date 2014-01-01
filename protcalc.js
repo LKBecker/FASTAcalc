@@ -16,89 +16,65 @@ function sequence(header, sequence){
 	this.sequence = sequence
 };
 
-function codon(dnacodons, letter, mass){
-	this.codons = dnacodons
+function codon(code, letter, mass){
+	this.code = code
 	this.letter = letter
 	this.mass = mass
 };
 
 function isolateSubSequences (text){
 	var header = /^>.?\|*/i;
-	var Seqs=[];
+	var Seqs= [];
 	var lm = 0;
 	for (var i=0; i<text.length; i++){
 		if (text[i].search(header) != -1){
 			console.log("Matched a header at position ", i, ". Last match at ", lm)
-			Seqs.push(text.slice(lm, i-1).join())
-			lastmatch = i
+			if (lm==0 && i==0){
+				continue
+			}else{
+				Seqs.push(sequence(text[i], text.slice(lm, i-1).join()))
+				lm = i
+			}			
 		};
+
+	};
+	if (lm==0){
+		Seqs.push(sequence("", text));	
 	};
 	return Seqs
 };
 
 
-function translateToProtein (Seq){
-	var codons = [
-		codon(['AUG'], '@', ), codon(['UUU', 'UUC'], 'F', ), codon(['UUA', 'UUG', 'CUU', 'CUC', 'CUA', 'CUG'], 'L', ), 
-		codon(['AUU', 'AUC', 'AUA', ], 'I', ), codon(['AUG'], 'M', ), codon(['GUU', 'GUC', 'GUA', 'GUG'], 'V', ), 
-		codon(['UCU', 'UCC', 'UCA', 'UCG'], 'S', ), codon(['CCU', 'UCC', 'UCA', 'UCG'], 'P', ), codon(['ACU', 'ACC', 'ACA', 'ACG'], 'T', ), 
-		codon(['GCU', 'GCC', 'GCA', 'GCG'], 'A', ), codon(['UAU', 'UAC'], 'Y', ), codon(['UAA', 'UAG', 'UGA'], '*', ), 
-		codon(['CAU', 'CAC'], 'H', ), codon(['CAA', 'CAG'], 'Q', ), codon(['AAU', 'AAC'], 'N', ), 
-		codon(['AAA', 'AAG'], 'K', ), codon(['GAU', 'GAC'], 'D', ), codon(['GAA', 'GAG'], 'E', ), 
-		codon(['UGU', 'UGC'], 'C', ), codon(['UGG'], 'W', ), codon(['AGA', 'AGG', 'CGU', 'CGC', 'CGA', 'CGG'], 'R', ), 
-		codon(['AGU', 'AGC'], 'S', ), codon(['GGU', 'GGC', 'GGA', 'GGG'], 'G', )];
+var codons = [
+	codon(['AUG'], '@', 0), codon(['UUU', 'UUC'], 'F', 147.06841), codon(['UUA', 'UUG', 'CUU', 'CUC', 'CUA', 'CUG'], 'L', 113.08406), 
+	codon(['AUU', 'AUC', 'AUA'], 'I', 113.08406), codon(['AUG'], 'M', 131.04049), codon(['GUU', 'GUC', 'GUA', 'GUG'], 'V', 99.06841), 
+	codon(['UCU', 'UCC', 'UCA', 'UCG'], 'S', 87.03203), codon(['CCU', 'UCC', 'UCA', 'UCG'], 'P', 97.05276), codon(['ACU', 'ACC', 'ACA', 'ACG'], 'T', 101.04768), 
+	codon(['GCU', 'GCC', 'GCA', 'GCG'], 'A', 71.0788), codon(['UAU', 'UAC'], 'Y', 163.06333), codon(['UAA', 'UAG', 'UGA'], '*', 0), 
+	codon(['CAU', 'CAC'], 'H', 137.05891), codon(['CAA', 'CAG'], 'Q', 128.05858), codon(['AAU', 'AAC'], 'N', 114.04293), 
+	codon(['AAA', 'AAG'], 'K', 128.09496), codon(['GAU', 'GAC'], 'D', 115.02694), codon(['GAA', 'GAG'], 'E', 129.04259), 
+	codon(['UGU', 'UGC'], 'C', 103.00919), codon(['UGG'], 'W', 186.07931), codon(['AGA', 'AGG', 'CGU', 'CGC', 'CGA', 'CGG'], 'R', 156.10111), 
+	codon(['AGU', 'AGC'], 'S', 87.03203), codon(['GGU', 'GGC', 'GGA', 'GGG'], 'G', 57.02146), 
+	codon([''], 'B', 114.6068474), codon([''], 'Z', 128.6804964), codon([''], 'X', 110.92618464)];
+
+function translateToProtein (Seq, i){
 		//replace T -> U, chop in thirds, case-insensitive match
+	protseq=""
 	for (var i=0; i<Seq.length; i+3){
-	
+		for (var j=0; j<codons.length; j+1){
+			if (Seq.slice(i, i+3) == codons[j].code){
+				protsec+=codons[j].letter
+				console.log("Matched ", Seq.slice(i, i+3), " and ", codons[j].letter)
+			};
+		};
 	};
 };
 
 
-function calculateMass (Seq){
-	/*
-	Letter	Amino Acid		Average Mass	% of all residues
-	A		alanine			071.0788		8.25
-	R		arginine		156.10111		5.53
-	N		asparagine		114.04293		4.06
-	D		aspartate		115.02694		5.45
-	C		cystine			103.00919		1.37
-	E		glutamate		129.04259		6.75
-	Q		glutamine		128.05858		3.93
-	G		glycine			057.02146		7.07
-	H		histidine		137.05891		2.27
-	I		isoleucine		113.08406		5.95
-	L		leucine			113.08406		9.66
-	K		lysine			128.09496		5.84
-	M		methionine		131.04049		2.42
-	F		phenylalanine	147.06841		3.86
-	P		proline			097.05276		4.70
-	S		serine			087.03203		6.57
-	T		threonine		101.04768		5.34
-	W		tryptophan		186.07931		1.08
-	Y		tyrosine		163.06333		2.92
-	V		valine			099.06841		6.87
-	U		selenocysteine	150.956363		N/A
-	Source: http://web.expasy.org/findmod/findmod_masses.html#AA
-
-	Uncommon codons
-	B	aspartate/asparagine 	114,6068474
-	Z	glutamate/glutamine		128,6804964
-	X	any						110,92618464
-						
-	These codons are handled as ExPASY's comput_pi (http://web.expasy.org/compute_pi/pi_tool-doc.html) does. Their masses were calculated from ExPASY statistics (http://web.expasy.org/docs/relnotes/relstat.html) on 11th December 2013
-	Amino Acid	Letter	Average Mass	% of all residues
-	aspartate	D		115.02694		5.45
-	asparagine	N		114.04293		4.06
-	
-
-	glutamate	E		129.04259		6.75
-	glutamine	Q		128.05858		3.93
-	*/
-
+function calculateMass (Seq, i){
 	
 };
 
-function calculateAbsorption (Seq){
+function calculateAbsorbance (Seq, i){
 	
 };
 
@@ -107,20 +83,26 @@ function parseInput (form) {
 	var header = /^>.?\|*/i;
 	//normalize linebreaks and make into an array:
 	var rawSeq = form.seqbox.value.replace(/\r\n/g, "\n").split("\n");
-	var Seq = [];
-	if (rawSeq[0].search(header) != -1){
-		Seq.push(rawSeqs.slice(1, rawSeq.length).join())
-
+	//var Seq = isolateSubSequences(rawSeq)
+	if (rawSeq[0].search(header)!=-1){
+		
 	};
-	parseSequence(Seq)
+	console.log(rawSeq)
+	/*for (var i=0; i<Seq.length; i++){
+		Seq[i] = parseSequence(Seq[i], i)
+		Seq[i] = calculateMass(Seq[i], i)
+		Seq[i] = calculateAbsorbance(Seq[i], i)
+	};
+	*/
 };
 
-function parseSequence (Seq){
+function parseSequence (Seq, i){
 	var sequenceName = "Unnamed Sequence";
+	console.log(Seq, i)
 	//Search for non-DNA FASTA characters
 	var rxDNA = /[ACGTNUKSYMWRBDHV-]/gi;
 	var rxProtein =/[EFILMPQZX*-]/gi;
-	var isDNA = Seq.search(rxDNA);
+	var isDNA = Seq.seqeuence.search(rxDNA);
 	var isProtein = Seq.search(rxProtein);
 	var result;
 	var results = ['DNA', 'Protein'];
@@ -167,4 +149,42 @@ The absorbance (optical density) can be calculated using the following formula:
 Absorb(Prot) = E(Prot) / Molecular_weight
 http://www.ncbi.nlm.nih.gov/pubmed/8563639?dopt=Abstract
 ----   
+
+	Letter	Amino Acid		Average Mass	% of all residues
+	A		alanine			071.0788		8.25
+	R		arginine		156.10111		5.53
+	N		asparagine		114.04293		4.06
+	D		aspartate		115.02694		5.45
+	C		cystine			103.00919		1.37
+	E		glutamate		129.04259		6.75
+	Q		glutamine		128.05858		3.93
+	G		glycine			057.02146		7.07
+	H		histidine		137.05891		2.27
+	I		isoleucine		113.08406		5.95
+	L		leucine			113.08406		9.66
+	K		lysine			128.09496		5.84
+	M		methionine		131.04049		2.42
+	F		phenylalanine	147.06841		3.86
+	P		proline			097.05276		4.70
+	S		serine			087.03203		6.57
+	T		threonine		101.04768		5.34
+	W		tryptophan		186.07931		1.08
+	Y		tyrosine		163.06333		2.92
+	V		valine			099.06841		6.87
+	U		selenocysteine	150.956363		N/A
+	Source: http://web.expasy.org/findmod/findmod_masses.html#AA
+
+	Uncommon codons
+	B	aspartate/asparagine 	114,6068474
+	Z	glutamate/glutamine		128,6804964
+	X	any						110,92618464
+						
+	These codons are handled as ExPASY's comput_pi (http://web.expasy.org/compute_pi/pi_tool-doc.html) does. Their masses were calculated from ExPASY statistics (http://web.expasy.org/docs/relnotes/relstat.html) on 11th December 2013
+	Amino Acid	Letter	Average Mass	% of all residues
+	aspartate	D		115.02694		5.45
+	asparagine	N		114.04293		4.06
+	
+
+	glutamate	E		129.04259		6.75
+	glutamine	Q		128.05858		3.93
 */
