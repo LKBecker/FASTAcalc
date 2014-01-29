@@ -1,9 +1,19 @@
 h1 {background-color:#ababab;}
 body {background:#ffffff url('chemistry.jpg') no-repeat right bottom; font-family:"Arial", Helvetica, sans-serif}
-ul {list-style-type:none; margin:20; padding:20; display:inline;} 
+
+ul.menu {list-style-type:none; margin:20; padding:20; display:inline;} 
+ul.ref {font-size: 10; list-style-type:none; margin:10; padding:0; display:block; width:1000;} 
 li {background-color:#ffffff; float:left;}
-a {display:block; margin-right:25px;}
-a:link {background-color:#B2FF99;text-decoration:none;}
+
+p.ref{font-size: 10}
+
+a.menu {display:block; margin-right:25px;}
+a.menu:link {background-color:#FFFFFF;text-decoration:none;}
+a.menu:visited {background-color:#ffffff;text-decoration:none;}
+a.menu:hover {background-color:#a0a0a0;text-decoration:none;}
+a.menu:active {background-color:#ffffff;text-decoration:none;} 
+
+a:link {background-color:#ffffff;text-decoration:none;}
 a:visited {background-color:#ffffff;text-decoration:none;}
-a:hover {background-color:#BABABA;text-decoration:none;}
 a:active {background-color:#ffffff;text-decoration:none;} 
+a:hover {background-color:#a0a0a0;text-decoration:none;} 

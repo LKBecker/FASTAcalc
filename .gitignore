@@ -9,6 +9,12 @@ blastcgihelp_files/pdf.htm
 fasta notes.txt
 fastaseqs.txt
 The Amino Acid Masses.htm
+<<<<<<< HEAD
 absorbances.xlsx
 codons.txt
 trypanosomes1.jpeg
+=======
+trypanosomes1.jpeg
+absorbances.xlsx
+codons.txt
+>>>>>>> 8dcf61eef441644579390cdbaf9968a16416de1a
