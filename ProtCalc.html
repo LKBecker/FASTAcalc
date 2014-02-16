@@ -23,8 +23,11 @@
 			<textarea NAME="seqbox" value="Enter sequence", cols=80 rows=10></textarea><br><br>
 			<!-- Or upload a .fasta file from your computer: 
 			<input type=file size=20 name=seqfile><br> -->
+			Sequence type:
+			<input type="radio" name="FASTAtype" id="Protein" value=0 checked> Protein
+			<input type="radio" name="FASTAtype" id="DNA" value=1> DNA<br><br>
 			<input type="text" name="A280" size="3"> Absorbance at 280nm (A)<br>
-			<input type="text" name="l" size="3" value=1> Cuvette length (cm)<br>
+			<input type="text" name="l" size="3" value=1> Cuvette length (cm)<br><br>
 			<input type="button" name="button" value="Calculate" onClick="parseInput(this.form)">
 		</FORM></p>
 	</body>
