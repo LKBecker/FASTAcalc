@@ -1,17 +1,18 @@
 <html>
 	<meta charset="UTF-8">
-	<title>Protein Calculator v0.5</title>
+	<title>Protein Calculator v0.9.2b</title>
 	<head>
 		<link rel="stylesheet" type="text/css" href="protcalc.css">
 	</head>
-	<ul class="menu">
-		<li><a class="menu" href="http://pdb.org/pdb/">PDB</a></li>
-		<li><a class="menu" href="http://www.ncbi.nlm.nih.gov/pubmed/">PubMed</a></li>
-		<li><a class="menu" href="http://www.lifesci.dundee.ac.uk/groups/mike_ferguson/">Ferguson Group</a></li>
-	</ul> 
+	<div class="menu">
+		<a class="menu" href="http://pdb.org/pdb/" target="_blank">PDB</a>
+		<a class="menu" href="http://www.ncbi.nlm.nih.gov/pubmed/" target="_blank">PubMed</a>
+		<a class="menu" href="http://www.lifesci.dundee.ac.uk/groups/mike_ferguson/" target="_blank">Ferguson Group</a>
+	</div> 
 	<br>
 	<body>
-		<h1>ProtCalc</h1>
+		<div class="ProtCalc">
+		<h1>ProtCalc v0.9.2b</h1>
 		<noscript>
 		  You have JavaScript disabled or your browser does not support it. ProtCalc required JavaScript. 
 		</noscript>
@@ -26,10 +27,46 @@
 			Sequence type:
 			<input type="radio" name="FASTAtype" id="Protein" value=0 checked> Protein
 			<input type="radio" name="FASTAtype" id="DNA" value=1> DNA<br><br>
-			<input type="text" name="A280" size="3"> Absorbance at 280nm (A)<br>
+			<input type="text" name="Absorbance" size="3"> Absorbance at 280nm (A)<br>
 			<input type="text" name="l" size="3" value=1> Cuvette length (cm)<br><br>
+			<input type="text" name="signFig" size="3" value=1>Significant figures<br><br>
 			<input type="button" name="button" value="Calculate" onClick="parseInput(this.form)">
+			<button type="button" onclick="blank(this.form)">Reset</button>
+
 		</FORM></p>
+		</div>
+		<div class="table" id="translation">
+			<div class="row">
+				<div class="cell">Translated sequence:</div>
+				<div class="prot" id="protSeq"></div><br>
+			</div>
+		</div>
+		<div class="table" id="results">
+			<h3>Results:</h3>
+			<div class="row">
+				<span class="cell">Protein:</span>
+				<span class="cell" id="protName">None</span><br>
+			</div>
+			<div class="row">
+				<span class="cell">Calculated molar mass:</span>
+				<span class="cell" id="molMass">0</span><br>
+			</div>
+			<div class="row">
+				<span class="cell">Calculated extinction coefficient:</span>
+				<span class="cell" id="extCoeff">0</span><br>
+				<span class="cell">(assuming all pairs of Cys residues form cystines)</span><br>
+			</div>
+			<div class="row">
+				<span class="cell">Calculated concentration (&mu;mol/L):</span>
+				<span class="cell" id="umolConc">0</span><br>
+			</div>
+			<div class="row">
+				<span class="cell">Calculated concentration (mg/ml):</span>
+				<span class="cell" id="mgMlConc">0</span><br>
+			</div>
+		</div>
+		<br>
+		
 	</body>
 	<p class="ref">
 	Important Notes:
@@ -43,5 +80,4 @@
 		<li> Amino acid masses from <a href="http://web.expasy.org/findmod/findmod_masses.html#AA">ExPASY</a>. Nonstandard residue weights (B, Z, X) were handled <a href="http://web.expasy.org/compute_pi/pi_tool-doc.html">as documented in ExPASY's official tool (Comment #5)</a>, with data from <a href="http://web.expasy.org/docs/relnotes/relstat.html">ExPASY's statistics</a></li>
 		</ul></p>
 		<br><br><br>
-	<font size="1">Written 2013 by LKBecker for the MAJF Lab at the University of Dundee.</font>
 </html>
