@@ -1,3 +1,4 @@
+//by LKBecker, for the MAJF Lab at Dundee, 2014. So long, and thanks for all the genes.
 if (!String.prototype.format) {
   String.prototype.format = function() {
     var args = arguments;
